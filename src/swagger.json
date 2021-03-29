@@ -1,0 +1,87 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Ignite 05",
+    "description": "This is documentation on the swagger challenge",
+    "version": "1.0.0",
+    "contact":{
+      "email": "teste@teste.com.br"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags":["User"],
+        "summary": "Create a user", 
+        "description": "Create a new user", 
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Name Test",
+                  "email": "test@text.com.br"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description":"User created successfully!",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties":{
+                    "id": {
+                      "type": "uuid"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "created_at": {
+                      "type": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Email already exists!",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "example":{
+                    "error": "This email is already in use!"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
