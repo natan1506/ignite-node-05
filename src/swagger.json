@@ -54,13 +54,16 @@
                       "type": "string"
                     },
                     "admin": {
-                      "type": "boolean"
+                      "type": "boolean",
+                      "example": "false"
                     },
                     "created_at": {
-                      "type": "date-time"
+                      "type": "date-time",
+                      "example": "2021-03-30T22:10:32.99ZZ"
                     },
                     "updated_at": {
-                      "type": "date-time"
+                      "type": "date-time",
+                      "example": "2021-03-30T22:10:32.99ZZ"
                     }
                   }
                 }
@@ -75,6 +78,235 @@
                   "type": "object",
                   "example":{
                     "error": "This email is already in use!"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags":["User"],
+        "summary": "Returns all users", 
+        "description": "Only **admin** user can access", 
+        "parameters": [
+          {
+            "in": "header",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description":"Operation performed successfully!",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties":{
+                    "id": {
+                      "type": "uuid"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "created_at": {
+                      "type": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "date-time"
+                    }
+                  },
+                  "example":[ 
+                    {
+                      "id": "12312341231-adsad2wd2dsa-234dsfsdsdfa",
+                      "name": "Jose Joao",
+                      "email": "jose.joao@test.com",
+                      "admin": "false",
+                      "created_at": "2021-03-30T22:10:32.99ZZ",
+                      "updated_at": "2021-03-30T22:10:32.99ZZ"
+                    },
+                    {
+                      "id": "12312341231-adsad2wd2dsa-234dsfsdsdfa",
+                      "name": "Jessica Jurassic",
+                      "email": "Jessica.jurao@test.com",
+                      "admin": "true",
+                      "created_at": "2021-03-30T22:10:32.99ZZ",
+                      "updated_at": "2021-03-30T22:10:32.99ZZ"
+                    }
+                  ]   
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User without permission or user not founds!",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "example":{
+                    "error": "User without permission or user not found!"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{user_id}": {
+      "get": {
+        "tags":["User"],
+        "summary": "Returns a specific user", 
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "description": "User id in the database"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description":"Operation performed successfully!",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties":{
+                    "id": {
+                      "type": "uuid",
+                      "example": "12312341231-adsad2wd2dsa-234dsfsdsdfa"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Jose Joao"
+                    },
+                    "email": {
+                      "type": "string",
+                      "exempla": "jose.joao@test.com"
+                    },
+                    "admin": {
+                      "type": "boolean",
+                      "example": "false"
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2021-03-30T22:10:32.99ZZ"
+                    },
+                    "updated_at": {
+                      "type": "date-time",
+                      "example": "2021-03-30T22:10:32.99ZZ"
+                    }
+                  },
+                  "example":{
+                    "id": "12312341231-adsad2wd2dsa-234dsfsdsdfa",
+                    "name": "Jose Joao",
+                    "email": "jose.joao@test.com",
+                    "admin": "false",
+                    "created_at": "2021-03-30T22:10:32.99ZZ",
+                    "updated_at": "2021-03-30T22:10:32.99ZZ"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not founds!",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "example":{
+                    "error": "User not found!"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin":{
+      "patch": {
+        "tags":["User"],
+        "summary": "Make a user in admin", 
+        "description": "Make an existing user in admin", 
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "id": "1234123123abcDef"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description":"User updated successfully!",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties":{
+                    "id": {
+                      "type": "uuid"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean",
+                      "example": "true"
+                    },
+                    "created_at": {
+                      "type": "date-time",
+                      "example": "2021-03-30T22:10:32.99ZZ"
+                    },
+                    "updated_at": {
+                      "type": "date-time",
+                      "example": "2021-04-10T22:10:32.99ZZ"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not exist!",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "example":{
+                    "error": "This user does not exist in the database!"
                   }
                 }
               }
